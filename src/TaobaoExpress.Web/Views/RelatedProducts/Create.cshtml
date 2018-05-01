@@ -1,0 +1,42 @@
+﻿@using TaobaoExpress.Model.Aggregates
+@model TaobaoExpress.DataAccess.RelatedProduct
+@{
+    this.ViewBag.Title = "Create";
+    var aggregate = (ProductWithPossibleRelatedProducts)this.ViewBag.Aggregate;
+}
+
+<h2>Create related Product</h2>
+@Html.ActionLink("Cancel", "View", "Products", new { id = this.Model.ProductId }, new { @class = "btn btn-default" })
+
+@using (Html.BeginForm())
+{
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true)
+
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.ProductId)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.RelatedProductId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(x => x.RelatedProductId, new SelectList(aggregate.PossibleRelatedProducts, "Id", "Name"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.RelatedProductId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsSubstitute, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.CheckBoxFor(x => x.IsSubstitute)
+                @Html.ValidationMessageFor(model => model.IsSubstitute)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create related product" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

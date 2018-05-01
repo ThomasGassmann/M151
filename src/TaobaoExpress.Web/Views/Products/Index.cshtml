@@ -1,0 +1,37 @@
+﻿@using TaobaoExpress.DataAccess
+@model IEnumerable<Product>
+@{
+    ViewBag.Title = "Products";
+}
+
+<h2>Product List</h2>
+@this.Html.ActionLink("Create", "Edit", new { }, new { @class = "btn btn-default" })
+
+<div style="clear: both;">
+    @foreach (var product in this.Model)
+    {
+        <div class="card">
+            <img class="card-img" src="/Products/Image/@product.Id" alt="Product Image" style="width: 100%">
+            <div class="card-container">
+                <h4><b>@product.Name</b></h4>
+                <p>
+                    @this.Html.ActionLink("View", "View", new { id = product.Id }, new { @class = "btn btn-default" })
+                    @this.Html.ActionLink("Edit", "Edit", new { id = product.Id }, new { @class = "btn btn-default" })
+                    @this.Html.ActionLink("Delete", "Delete", new { id = product.Id }, new { @class = "btn btn-default" })
+                </p>
+                <p>Released: @(product.ReleaseDate?.ToShortDateString() ?? "Never") Created: @product.Created.ToShortDateString() | Updated: @product.Updated.ToShortDateString()</p>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="footer">
+    @if (this.ViewBag.Page > 0)
+    {
+        @Html.ActionLink("Previous", "Index", new { page = this.ViewBag.Page - 1, pageSize = this.ViewBag.PageSize }, new { @class = "btn btn-default" })
+    }
+    @if (this.Model.Count() == this.ViewBag.PageSize)
+    {
+        @Html.ActionLink("Next", "Index", new { page = this.ViewBag.Page + 1, pageSize = this.ViewBag.PageSize }, new { @class = "btn btn-default" })
+    }
+</div>

@@ -1,0 +1,35 @@
+﻿@using TaobaoExpress.DataAccess
+@model IEnumerable<Retailer>
+@{
+    ViewBag.Title = "Retailers";
+}
+
+<h2>Retailers</h2>
+@this.Html.ActionLink("Create", "Edit", new { }, new { @class = "btn btn-default" })
+
+<div style="clear: both;">
+    @foreach (var retailer in this.Model)
+    {
+        <div class="card">
+            <div class="card-container">
+                <h4><b>@retailer.Name</b></h4>
+                <p>
+                    @this.Html.ActionLink("Edit", "Edit", new { id = retailer.Id }, new { @class = "btn btn-default" })
+                    @this.Html.ActionLink("Products", "Edit", "RetailerProducts", new { id = retailer.Id }, new { @class = "btn btn-default" })
+                </p>
+                <p>Created: @retailer.Created.ToShortDateString() | Updated: @retailer.Updated.ToShortDateString()</p>
+            </div>
+        </div>
+    }
+</div>
+
+<div class="footer">
+    @if (this.ViewBag.Page > 0)
+    {
+        @Html.ActionLink("Previous", "Index", new { page = this.ViewBag.Page - 1, pageSize = this.ViewBag.PageSize }, new { @class = "btn btn-default" })
+    }
+    @if (this.Model.Count() == this.ViewBag.PageSize)
+    {
+        @Html.ActionLink("Next", "Index", new { page = this.ViewBag.Page + 1, pageSize = this.ViewBag.PageSize }, new { @class = "btn btn-default" })
+    }
+</div>

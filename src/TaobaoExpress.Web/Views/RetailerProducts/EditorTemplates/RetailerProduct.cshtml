@@ -1,0 +1,29 @@
+﻿@model TaobaoExpress.DataAccess.RetailerProduct
+
+@{ 
+    if (ViewBag.Amount != null)
+    {
+        ViewData.TemplateInfo.HtmlFieldPrefix = "[" + ViewBag.Amount.ToString() + "]";
+    }
+}
+<div class="form-group">
+    @Html.HiddenFor(p => p.ConcurrencyCheck)
+    @Html.HiddenFor(p => p.RetailerId, new { Value = ViewBag.RetailerId })
+    @Html.LabelFor(model => model.IsManufacturer, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.EditorFor(model => model.IsManufacturer, new { htmlAttributes = new { @class = "form-control" } })
+        @Html.ValidationMessageFor(model => model.IsManufacturer)
+    </div>
+    @Html.LabelFor(model => model.ProductId, htmlAttributes: new { @class = "control-label col-md-2" })
+    <div class="col-md-10">
+        @Html.DropDownListFor(x => x.ProductId, new SelectList(ViewBag.Products, "Id", "Name"), new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.ProductId)
+    </div>
+    <br />
+    <div class="control-label col-md-2">
+        Remove?
+    </div>
+    <div class="col-md-10">
+        <a class="btn btn-info" onclick="javascript:Taobao.removeRetailerProduct(@ViewData.TemplateInfo.HtmlFieldPrefix.Replace("[", "").Replace("]", ""))">Remove</a>
+    </div>
+</div>

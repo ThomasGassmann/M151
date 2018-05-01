@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="9727b56cc52b482abb883f9771727527" Name="Diagram1">
+        <EntityTypeShape EntityType="TaobaoExpressModel.AuditLog" Width="1.5" PointX="5.75" PointY="2.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaobaoExpressModel.ProductReview" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaobaoExpressModel.Product" Width="1.5" PointX="0.75" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaobaoExpressModel.RelatedProduct" Width="1.5" PointX="3" PointY="7.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaobaoExpressModel.RetailerProduct" Width="1.5" PointX="6" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TaobaoExpressModel.Retailer" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <AssociationConnector Association="TaobaoExpressModel.FK__ProductRe__Produ__2A4B4B5E" ManuallyRouted="false" />
+        <AssociationConnector Association="TaobaoExpressModel.FK__RelatedPr__Produ__25869641" ManuallyRouted="false" />
+        <AssociationConnector Association="TaobaoExpressModel.FK__RelatedPr__Relat__267ABA7A" ManuallyRouted="false" />
+        <AssociationConnector Association="TaobaoExpressModel.FK__RetailerP__Produ__2F10007B" ManuallyRouted="false" />
+        <AssociationConnector Association="TaobaoExpressModel.FK__RetailerP__Retai__300424B4" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

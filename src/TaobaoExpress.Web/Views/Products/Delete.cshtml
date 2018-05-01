@@ -1,0 +1,34 @@
+﻿@model TaobaoExpress.DataAccess.Product
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete @this.Model.Name?</h2>
+@this.Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-default" })
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <h4>Product</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        <div class="form-group">
+            <div class="col-md-12">
+                Delete Product (last edited: @this.Model.Updated.ToShortDateString()):
+                <br />
+                @Html.DisplayFor(model => model.Name)
+                <br />
+                <p>This will delete all product relations</p>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-12">
+                <input type="submit" value="Delete" class="btn btn-danger" />
+                @Html.ActionLink("Cancel", "View", new { id = this.Model.Id }, new { @class = "btn btn-default" })
+            </div>
+        </div>
+    </div>
+}

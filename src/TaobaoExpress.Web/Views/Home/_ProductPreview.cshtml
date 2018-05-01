@@ -1,0 +1,17 @@
+﻿@using TaobaoExpress.DataAccess
+@model Product
+
+<div class="row">
+    <div class="col-md-3">
+        @this.Html.DisplayFor(x => x.Name)
+    </div>
+    <div class="col-md-3">
+        @this.Html.DisplayFor(x => x.ReleaseDate)
+    </div>
+    <div class="col-md-3">
+        @this.Html.DisplayFor(x => x.Created)
+    </div>
+    <div class="col-md-3">
+        @this.Html.DisplayFor(x => x.Updated)
+    </div>
+</div>

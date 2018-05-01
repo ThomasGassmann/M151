@@ -1,0 +1,62 @@
+﻿@model TaobaoExpress.DataAccess.Product
+@using TaobaoExpress.DataAccess
+
+@{
+    ViewBag.Title = "View";
+}
+
+<h2>@this.Model.Name</h2>
+@this.Html.ActionLink("Delete", "Delete", new { id = this.Model.Id }, new { @class = "btn btn-default" })
+@this.Html.ActionLink("Edit", "Edit", new { id = this.Model.Id }, new { @class = "btn btn-default" })
+@this.Html.ActionLink("Back to List", "Index", new { }, new { @class = "btn btn-default" })
+
+<hr />
+<img src="/Products/Image/@this.Model.Id" height="300" />
+<br />
+@Html.LabelFor(x => x.ReleaseDate)
+@Html.DisplayFor(x => x.ReleaseDate)
+<br />
+@Html.LabelFor(x => x.Updated)
+@Html.DisplayFor(x => x.Updated)
+<br />
+@Html.LabelFor(x => x.Created)
+@Html.DisplayFor(x => x.Created)
+
+<h3>Reviews</h3>
+@this.Html.ActionLink("Create Comment", "Create", "Comments", new { id = this.Model.Id }, new { @class = "btn btn-default" })
+
+<div class="list-group">
+    @foreach (var review in this.Model.ProductReviews)
+    {
+        <div class="list-group-item">
+            <b>@review.UserEmail</b>
+            <br />
+            <p>@review.Text</p>
+            <h6>@review.Review</h6>
+            <h6>@review.Created</h6>
+        </div>
+    }
+</div>
+
+<h3>Related Products</h3>
+@this.Html.ActionLink("Relate", "Create", "RelatedProducts", new { id = this.Model.Id }, new { @class = "btn btn-default" })
+
+<div class="list-group">
+    @foreach (RelatedProduct related in this.ViewBag.Related)
+    {
+        <div class="list-group-item">
+            @{ 
+                var id = related.ProductId == this.Model.Id ? related.RelatedProductId : related.ProductId;
+            }
+            @Html.ActionLink($"Related product with id {id}", "View", "Products", new { id = id }, new { @class = "btn btn-default" })
+            @if (related.ProductId == this.Model.Id && related.IsSubstitute)
+            {
+                <b>Substitute Product</b>
+            }
+            @if (related.RelatedProductId == this.Model.Id && related.IsSubstitute)
+            {
+                <b>Parent Substitute Product</b>
+            }
+        </div>
+    }
+</div>

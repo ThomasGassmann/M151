@@ -1,0 +1,37 @@
+﻿@using TaobaoExpress.DataAccess
+@model IEnumerable<AuditLog>
+@{
+    ViewBag.Title = "Log";
+}
+
+<h2>Audit Log</h2>
+
+<div class="list-group">
+    @foreach (var log in this.Model)
+    {
+        <div class="list-group-item">
+            <b>Changed entity at @log.Created</b>
+            <br />
+            <p><span class="badge badge-secondary">@log.UpdateType</span> - <i>@log.UpdatedEntity</i></p>
+            <div class="list-group">
+                @foreach (var property in log.Properties)
+                {
+                    <div class="list-group-item">
+                        <b>@property.Key</b>: @property.Value
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>
+
+<div class="footer">
+    @if (this.ViewBag.Page > 0)
+    {
+        @Html.ActionLink("Previous", "Index", new { page = this.ViewBag.Page - 1, pageSize = this.ViewBag.PageSize }, new { @class = "btn btn-default" })
+    }
+    @if (this.Model.Count() == this.ViewBag.PageSize)
+    {
+        @Html.ActionLink("Next", "Index", new { page = this.ViewBag.Page + 1, pageSize = this.ViewBag.PageSize }, new { @class = "btn btn-default" })
+    }
+</div>

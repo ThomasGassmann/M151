@@ -1,0 +1,426 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TaobaoExpressModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AuditLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UpdatedEntity" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="UpdateType" Type="varchar" MaxLength="1" Nullable="false" />
+          <Property Name="UpdatedValue" Type="xml" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ProductReviews">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ProductId" Type="bigint" Nullable="false" />
+          <Property Name="Text" Type="varchar" MaxLength="1000" Nullable="false" />
+          <Property Name="UserEmail" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Review" Type="int" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Image" Type="varbinary" MaxLength="Max" />
+          <Property Name="ReleaseDate" Type="datetime" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Updated" Type="datetime" Nullable="false" />
+          <Property Name="ConcurrencyCheck" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="RelatedProducts">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="RelatedProductId" />
+          </Key>
+          <Property Name="ProductId" Type="bigint" Nullable="false" />
+          <Property Name="RelatedProductId" Type="bigint" Nullable="false" />
+          <Property Name="IsSubstitute" Type="bit" />
+        </EntityType>
+        <EntityType Name="RetailerProducts">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="RetailerId" />
+          </Key>
+          <Property Name="ProductId" Type="bigint" Nullable="false" />
+          <Property Name="RetailerId" Type="bigint" Nullable="false" />
+          <Property Name="IsManufacturer" Type="bit" Nullable="false" />
+          <Property Name="ConcurrencyCheck" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <EntityType Name="Retailers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="bigint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Updated" Type="datetime" Nullable="false" />
+          <Property Name="ConcurrencyCheck" Type="timestamp" StoreGeneratedPattern="Computed" />
+        </EntityType>
+        <Association Name="FK__ProductRe__Produ__2A4B4B5E">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProductReviews" Type="Self.ProductReviews" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductReviews">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RelatedPr__Produ__25869641">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="RelatedProducts" Type="Self.RelatedProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RelatedProducts">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RelatedPr__Relat__267ABA7A">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="RelatedProducts" Type="Self.RelatedProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RelatedProducts">
+              <PropertyRef Name="RelatedProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RetailerP__Produ__2F10007B">
+          <End Role="Products" Type="Self.Products" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RetailerProducts" Type="Self.RetailerProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RetailerProducts">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RetailerP__Retai__300424B4">
+          <End Role="Retailers" Type="Self.Retailers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RetailerProducts" Type="Self.RetailerProducts" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Retailers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RetailerProducts">
+              <PropertyRef Name="RetailerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TaobaoExpressModelStoreContainer">
+          <EntitySet Name="AuditLog" EntityType="Self.AuditLog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ProductReviews" EntityType="Self.ProductReviews" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RelatedProducts" EntityType="Self.RelatedProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RetailerProducts" EntityType="Self.RetailerProducts" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Retailers" EntityType="Self.Retailers" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ProductRe__Produ__2A4B4B5E" Association="Self.FK__ProductRe__Produ__2A4B4B5E">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductReviews" EntitySet="ProductReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RelatedPr__Produ__25869641" Association="Self.FK__RelatedPr__Produ__25869641">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="RelatedProducts" EntitySet="RelatedProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RelatedPr__Relat__267ABA7A" Association="Self.FK__RelatedPr__Relat__267ABA7A">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="RelatedProducts" EntitySet="RelatedProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RetailerP__Produ__2F10007B" Association="Self.FK__RetailerP__Produ__2F10007B">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="RetailerProducts" EntitySet="RetailerProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RetailerP__Retai__300424B4" Association="Self.FK__RetailerP__Retai__300424B4">
+            <End Role="Retailers" EntitySet="Retailers" />
+            <End Role="RetailerProducts" EntitySet="RetailerProducts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TaobaoExpressModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AuditLog">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UpdatedEntity" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UpdateType" Type="String" MaxLength="1" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UpdatedValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="ProductReview">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="Text" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserEmail" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Review" Type="Int32" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Products" Relationship="Self.FK__ProductRe__Produ__2A4B4B5E" FromRole="ProductReviews" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Image" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="ReleaseDate" Type="DateTime" Precision="3" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Updated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ConcurrencyCheck" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+          <NavigationProperty Name="ProductReviews" Relationship="Self.FK__ProductRe__Produ__2A4B4B5E" FromRole="Products" ToRole="ProductReviews" />
+          <NavigationProperty Name="RetailerProducts" Relationship="Self.FK__RetailerP__Produ__2F10007B" FromRole="Products" ToRole="RetailerProducts" />
+        </EntityType>
+        <EntityType Name="RelatedProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="RelatedProductId" />
+          </Key>
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="RelatedProductId" Type="Int64" Nullable="false" />
+          <Property Name="IsSubstitute" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RetailerProduct">
+          <Key>
+            <PropertyRef Name="ProductId" />
+            <PropertyRef Name="RetailerId" />
+          </Key>
+          <Property Name="ProductId" Type="Int64" Nullable="false" />
+          <Property Name="RetailerId" Type="Int64" Nullable="false" />
+          <Property Name="IsManufacturer" Type="Boolean" Nullable="false" />
+          <Property Name="ConcurrencyCheck" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+          <NavigationProperty Name="Products" Relationship="Self.FK__RetailerP__Produ__2F10007B" FromRole="RetailerProducts" ToRole="Products" />
+          <NavigationProperty Name="Retailers" Relationship="Self.FK__RetailerP__Retai__300424B4" FromRole="RetailerProducts" ToRole="Retailers" />
+        </EntityType>
+        <EntityType Name="Retailer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Updated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ConcurrencyCheck" Type="Binary" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" ConcurrencyMode="Fixed" />
+          <NavigationProperty Name="RetailerProducts" Relationship="Self.FK__RetailerP__Retai__300424B4" FromRole="Retailers" ToRole="RetailerProducts" />
+        </EntityType>
+        <Association Name="FK__ProductRe__Produ__2A4B4B5E">
+          <End Role="Products" Type="TaobaoExpressModel.Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ProductReviews" Type="TaobaoExpressModel.ProductReview" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ProductReviews">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RelatedPr__Produ__25869641">
+          <End Role="Products" Type="TaobaoExpressModel.Product" Multiplicity="1" />
+          <End Role="RelatedProducts" Type="TaobaoExpressModel.RelatedProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RelatedProducts">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RelatedPr__Relat__267ABA7A">
+          <End Role="Products" Type="TaobaoExpressModel.Product" Multiplicity="1" />
+          <End Role="RelatedProducts" Type="TaobaoExpressModel.RelatedProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RelatedProducts">
+              <PropertyRef Name="RelatedProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RetailerP__Produ__2F10007B">
+          <End Role="Products" Type="TaobaoExpressModel.Product" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RetailerProducts" Type="TaobaoExpressModel.RetailerProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RetailerProducts">
+              <PropertyRef Name="ProductId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__RetailerP__Retai__300424B4">
+          <End Role="Retailers" Type="TaobaoExpressModel.Retailer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="RetailerProducts" Type="TaobaoExpressModel.RetailerProduct" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Retailers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="RetailerProducts">
+              <PropertyRef Name="RetailerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TaobaoExpressEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AuditLog" EntityType="Self.AuditLog" />
+          <EntitySet Name="ProductReviews" EntityType="TaobaoExpressModel.ProductReview" />
+          <EntitySet Name="Products" EntityType="TaobaoExpressModel.Product" />
+          <EntitySet Name="RelatedProducts" EntityType="TaobaoExpressModel.RelatedProduct" />
+          <EntitySet Name="RetailerProducts" EntityType="TaobaoExpressModel.RetailerProduct" />
+          <EntitySet Name="Retailers" EntityType="TaobaoExpressModel.Retailer" />
+          <AssociationSet Name="FK__ProductRe__Produ__2A4B4B5E" Association="Self.FK__ProductRe__Produ__2A4B4B5E">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="ProductReviews" EntitySet="ProductReviews" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RelatedPr__Produ__25869641" Association="Self.FK__RelatedPr__Produ__25869641">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="RelatedProducts" EntitySet="RelatedProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RelatedPr__Relat__267ABA7A" Association="Self.FK__RelatedPr__Relat__267ABA7A">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="RelatedProducts" EntitySet="RelatedProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RetailerP__Produ__2F10007B" Association="Self.FK__RetailerP__Produ__2F10007B">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="RetailerProducts" EntitySet="RetailerProducts" />
+          </AssociationSet>
+          <AssociationSet Name="FK__RetailerP__Retai__300424B4" Association="Self.FK__RetailerP__Retai__300424B4">
+            <End Role="Retailers" EntitySet="Retailers" />
+            <End Role="RetailerProducts" EntitySet="RetailerProducts" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TaobaoExpressModelStoreContainer" CdmEntityContainer="TaobaoExpressEntities">
+          <EntitySetMapping Name="AuditLog">
+            <EntityTypeMapping TypeName="TaobaoExpressModel.AuditLog">
+              <MappingFragment StoreEntitySet="AuditLog">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UpdatedEntity" ColumnName="UpdatedEntity" />
+                <ScalarProperty Name="UpdateType" ColumnName="UpdateType" />
+                <ScalarProperty Name="UpdatedValue" ColumnName="UpdatedValue" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ProductReviews">
+            <EntityTypeMapping TypeName="TaobaoExpressModel.ProductReview">
+              <MappingFragment StoreEntitySet="ProductReviews">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="UserEmail" ColumnName="UserEmail" />
+                <ScalarProperty Name="Review" ColumnName="Review" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="TaobaoExpressModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Image" ColumnName="Image" />
+                <ScalarProperty Name="ReleaseDate" ColumnName="ReleaseDate" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="ConcurrencyCheck" ColumnName="ConcurrencyCheck" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RelatedProducts">
+            <EntityTypeMapping TypeName="TaobaoExpressModel.RelatedProduct">
+              <MappingFragment StoreEntitySet="RelatedProducts">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="RelatedProductId" ColumnName="RelatedProductId" />
+                <ScalarProperty Name="IsSubstitute" ColumnName="IsSubstitute" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RetailerProducts">
+            <EntityTypeMapping TypeName="TaobaoExpressModel.RetailerProduct">
+              <MappingFragment StoreEntitySet="RetailerProducts">
+                <ScalarProperty Name="ProductId" ColumnName="ProductId" />
+                <ScalarProperty Name="RetailerId" ColumnName="RetailerId" />
+                <ScalarProperty Name="IsManufacturer" ColumnName="IsManufacturer" />
+                <ScalarProperty Name="ConcurrencyCheck" ColumnName="ConcurrencyCheck" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Retailers">
+            <EntityTypeMapping TypeName="TaobaoExpressModel.Retailer">
+              <MappingFragment StoreEntitySet="Retailers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Updated" ColumnName="Updated" />
+                <ScalarProperty Name="ConcurrencyCheck" ColumnName="ConcurrencyCheck" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,30 @@
+﻿@using TaobaoExpress.DataAccess
+@model IEnumerable<Product>
+@{
+    ViewBag.Title = "TaobaoExpress";
+}
+
+<div class="jumbotron">
+    <h1>TaobaoExpress</h1>
+    <p class="lead">SUBTITLE</p>
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <b>Name</b>
+    </div>
+    <div class="col-md-3">
+        <b>Release Date</b>
+    </div>
+    <div class="col-md-3">
+        <b>Creation Date</b>
+    </div>
+    <div class="col-md-3">
+        <b>Updated Date</b>
+    </div>
+</div>
+
+@foreach (var product in this.Model)
+{
+    this.Html.RenderPartial("_ProductPreview", product);
+}
